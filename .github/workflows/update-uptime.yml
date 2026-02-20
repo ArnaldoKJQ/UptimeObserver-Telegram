@@ -18,10 +18,15 @@ jobs:
           UPTIMEOBSERVER_API_KEY: ${{ secrets.UPTIMEOBSERVER_API_KEY }}
         run: |
           set -e
+
           BADGE_URL="https://img.shields.io/uptimeobserver/status/${UPTIMEOBSERVER_API_KEY}"
 
-          # Single-line sed replacement avoids YAML issues
-          sed -i "/<!-- UPTIME_STATUS_START -->/,/<!-- UPTIME_STATUS_END -->/c<!-- UPTIME_STATUS_START -->\n![UptimeObserver status](${BADGE_URL})\n<!-- UPTIME_STATUS_END -->" README.md
+          # Replace badge safely using a temporary file
+          awk -v badge="$BADGE_URL" '
+          /<!-- UPTIME_STATUS_START -->/ {print; print "![UptimeObserver status](" badge ")"; next}
+          /<!-- UPTIME_STATUS_END -->/ {print; next}
+          !/<!-- UPTIME_STATUS_START -->/,!/<!-- UPTIME_STATUS_END -->/ {print}
+          ' README.md > README.tmp && mv README.tmp README.md
 
       - name: Commit and push changes
         run: |
