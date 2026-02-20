@@ -1,5 +1,7 @@
-## Live Uptime Status
+# My Demo Website
+
+## Uptime Status
 
 <!-- UPTIME_STATUS_START -->
-Status: Loading...
+![UptimeObserver status](https://img.shields.io/uptimeobserver/status/placeholder)
 <!-- UPTIME_STATUS_END -->
