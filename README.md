@@ -13,13 +13,13 @@
 2. Copy the connect command (e.g., `/connect XXXXXXXX:X`).
 3. Open Telegram, find `UptimeObserverBot`, and send the command.
 4. Bot confirms the integration.
-(Optional): Test with the **Test Telegram Alert** button.
+5. (Optional): Test with the **Test Telegram Alert** button.
 
 ### 2. Enable Alerts on Monitors
 1. Go to a monitor → Monitor Detail page.
 2. Add Alert → select **Telegram** as Alert Type.
 3. Choose event (e.g., Monitor Down, Monitor Up).
-(Optional): Embed Badge in Website
+4. (Optional): Embed Badge in Website
 - **Markdown example**:
   `![UptimeObserver status](https://img.shields.io/uptimeobserver/status/:api-key)`
 - **HTML example**:
