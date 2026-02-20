@@ -1,7 +1,6 @@
 name: Update UptimeObserver Badge
 
 on:
-  # Run every 10 minutes
   schedule:
     - cron: "*/10 * * * *"
   workflow_dispatch:
@@ -11,26 +10,19 @@ jobs:
     runs-on: ubuntu-latest
 
     steps:
-      # Step 1: Checkout repository
       - name: Checkout repository
         uses: actions/checkout@v4
 
-      # Step 2: Update the badge in README
       - name: Update UptimeObserver badge in README
         env:
           UPTIMEOBSERVER_API_KEY: ${{ secrets.UPTIMEOBSERVER_API_KEY }}
         run: |
           set -e
-
           BADGE_URL="https://img.shields.io/uptimeobserver/status/${UPTIMEOBSERVER_API_KEY}"
 
-          # Replace the badge block safely
-          sed -i -e "/<!-- UPTIME_STATUS_START -->/,/<!-- UPTIME_STATUS_END -->/c\
-<!-- UPTIME_STATUS_START -->\
-![UptimeObserver status](${BADGE_URL})\
-<!-- UPTIME_STATUS_END -->" README.md
+          # Single-line sed replacement avoids YAML issues
+          sed -i "/<!-- UPTIME_STATUS_START -->/,/<!-- UPTIME_STATUS_END -->/c<!-- UPTIME_STATUS_START -->\n![UptimeObserver status](${BADGE_URL})\n<!-- UPTIME_STATUS_END -->" README.md
 
-      # Step 3: Commit and push changes if any
       - name: Commit and push changes
         run: |
           git config user.name "github-actions"
