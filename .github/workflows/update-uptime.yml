@@ -2,7 +2,7 @@ name: Update UptimeObserver Badge
 
 on:
   schedule:
-    - cron: "*/10 * * * *" # every 10 minutes
+    - cron: "*/10 * * * *"
   workflow_dispatch:
 
 jobs:
@@ -17,23 +17,15 @@ jobs:
         env:
           UPTIMEOBSERVER_API_KEY: ${{ secrets.UPTIMEOBSERVER_API_KEY }}
         run: |
-          #!/bin/bash
           set -e
 
-          # Construct badge URL
           BADGE_URL="https://img.shields.io/uptimeobserver/status/${UPTIMEOBSERVER_API_KEY}"
 
-          # Create new content block
-          NEW_BLOCK="<!-- UPTIME_STATUS_START -->"$'\n'"![UptimeObserver status](${BADGE_URL})"$'\n'"<!-- UPTIME_STATUS_END -->"
-
-          # Use awk to replace the placeholder block in README.md
-          awk -v new_block="$NEW_BLOCK" '
-          /<!-- UPTIME_STATUS_START -->/ {print new_block; replace=1; next}
-          /<!-- UPTIME_STATUS_END -->/ {replace=0; next}
-          replace==0 {print}
-          ' README.md > temp.md
-
-          mv temp.md README.md
+          # Replace the block in README.md safely
+          sed -i -e "/<!-- UPTIME_STATUS_START -->/,/<!-- UPTIME_STATUS_END -->/c\
+<!-- UPTIME_STATUS_START -->\
+![UptimeObserver status](${BADGE_URL})\
+<!-- UPTIME_STATUS_END -->" README.md
 
       - name: Commit and push changes if any
         run: |
