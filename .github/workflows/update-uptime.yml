@@ -18,7 +18,7 @@ jobs:
           UPTIME_KEY: ${{ secrets.UPTIME_KEY }}
         run: |
           # Construct badge URL
-          BADGE_URL="https://img.shields.io/uptimeobserver/status/${UPTIME_KEY}"
+          BADGE_URL="https://img.shields.io/uptimeobserver/status/${UPTIMEOBSERVER_API_KEY}"
 
           # Create new content block
           NEW_BLOCK="<!-- UPTIME_STATUS_START -->
